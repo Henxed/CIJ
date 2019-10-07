@@ -9,20 +9,13 @@
           новый
         </router-link>
         <tbody>
-  				<tr v-for="user in filterdUsers">
-  					<td>{{user.id}}</td>
-  					<td>{{user.username}}</td>
-  					<td>{{user.firstName}}</td>
-  					<td>{{user.lastName}}</td>
-  					<td>{{user.email}}</td>
+  				<tr v-for="post in filterdPosts">
+  					<td>{{post.id}}</td>
+  					<td>{{post.title}}</td>
+  					<td>{{post.contacts}}</td>
   				</tr>
   			</tbody>
 
-        <input type="text" name="username" id="username" v-model="user.username" placeholder="username">
-    		<input type="text" name="firstName" id="firstName" v-model="user.firstName" placeholder="firstName">
-    		<input type="text" name="lastName" id="lastName" v-model="user.lastName" placeholder="lastName">
-    		<input type="text" name="email" id="email" v-model="user.email" placeholder="email">
-    		<button class="button" v-on:click="addUser">Submit</button>
       </div>
 
     </main>
@@ -56,30 +49,24 @@ const store = low(adapter)
   		})
   	}
   })
-  store.users = store.get('users')
+  store.posts = store.get('posts')
 
   export default {
     data: function() {
          return  {
             filter: '',
-         		users: store.get('users').value(),
-         		user: {}
+         		posts: store.get('posts').value(),
+            post: {}
          }
     },
   	computed: {
-  		filterdUsers () {
+  		filterdPosts () {
   			if (!this.filter) return this.users
 
-  			return _.filter(this.users, user => {
-  				const haystack = Object.values(user).join(',')
+  			return _.filter(this.posts, post => {
+  				const haystack = Object.values(post).join(',')
   				return haystack.indexOf(this.filter) != -1
   			})
-  		}
-  	},
-  	methods: {
-  		addUser: function () {
-  			store.users.insert(this.user).write()
-  			this.user = {}
   		}
   	}
   }
