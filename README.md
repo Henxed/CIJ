@@ -1,25 +1,25 @@
-# my-project
+# CIJ
 
-> Интерактивный сайт ЦЗГп по поиску учрежденийо поискупо поиску 
+> Интерактивный журнал ЦЗН по поиску учреждений с помощью поиска и вывод карточек.
 
-#### Build Setup
+Данное приложение построенно на [Electron](https://electronjs.org/) и имеет локальную базу данных [lowdb.js](https://github.com/typicode/lowdb) (NOSQL). Что позволит хранить данные локальны и без интернета. 
+
+#### Как установить
 
 ``` bash
-# install dependencies
-npm install
+# установка зависимостей
+yarn install
 
-# serve with hot reload at localhost:9080
-npm run dev
+# сервер разработчика с реактивной перезагрузкой localhost:9080
+yarn run dev
 
-# build electron application for production
-npm run build
-
+# сборка приложения
+yarn run build
 
 # lint all JS/Vue component files in `src/`
-npm run lint
+yarn run lint
 
 ```
 
 ---
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
