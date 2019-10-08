@@ -32,6 +32,7 @@
       </div>
 
     </main>
+
   </div>
 </template>
 
@@ -39,8 +40,8 @@
 import Vue from 'vue'
 import VueSnackbar from 'vue-snack'
 import 'vue-snack/dist/vue-snack.min.css'
-Vue.use(VueSnackbar)
 
+Vue.use(VueSnackbar)
 
 const low = require('lowdb')
 const _ = require('lodash')
