@@ -8,13 +8,12 @@
         <router-link to="/new">
           новый
         </router-link>
-        <tbody>
-  				<tr v-for="post in filterdPosts">
-  					<td>{{post.id}}</td>
-  					<td>{{post.title}}</td>
-  					<td>{{post.contacts}}</td>
-  				</tr>
-  			</tbody>
+<div class="grid">
+  				<router-link :to="{ name: 'post', params: { id: post.id } }" class="card" v-for="post in filterdPosts" >
+  					<h3>{{post.title}}</h3>
+  					<div class="contacts">{{post.contacts}}</div><div class="boss">{{post.boss}}</div>
+  				</router-link>
+</div>
 
       </div>
 
@@ -37,16 +36,6 @@ const store = low(adapter)
   		doc.id = ++id
   		col.push(doc)
   		return col
-  	},
-  	findById: function(col, id) {
-  		return _.find(col, ['id', id])
-  	},
-  	fuzzyFind (col, needle) {
-  		if (!needle) return col
-  		return _.filter(col, obj => {
-  			const haystack = Object.values(obj).join(',')
-  			return haystack.indexOf(needle) != -1
-  		})
   	}
   })
   store.posts = store.get('posts')
@@ -61,11 +50,11 @@ const store = low(adapter)
     },
   	computed: {
   		filterdPosts () {
-  			if (!this.filter) return this.users
+  			if (!this.filter) return this.posts
 
   			return _.filter(this.posts, post => {
   				const haystack = Object.values(post).join(',')
-  				return haystack.indexOf(this.filter) != -1
+  				return haystack.toLowerCase().indexOf(this.filter) != -1
   			})
   		}
   	}
@@ -169,7 +158,7 @@ const store = low(adapter)
       min-width: 500px;
       border-radius: 44px;
       border: 1px solid #d6d6d6;
-      box-shadow: 0 5px 9px 0px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
   }
 
   input[type="search"]:focus {
@@ -183,4 +172,25 @@ const store = low(adapter)
       justify-content: center;
       margin: 2rem auto;
   }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+  }
+  .card {
+    box-shadow: 0 1px 1px 0 rgba(60,64,67,.08), 0 1px 3px 1px rgba(60,64,67,.16);
+    background: #fff;
+    border-radius: 3px;
+    color: #616161;
+    display: block;
+    font-size: 13px;
+    margin: 15px 0;
+    overflow: hidden;
+    vertical-align: top;
+    width: 340px;
+    z-index: 1;
+    padding: 16px 20px 12px;
+    text-decoration: none;
+}
 </style>
