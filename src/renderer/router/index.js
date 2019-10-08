@@ -20,8 +20,19 @@ export default new Router({
     },
     {
       path: '/new',
-      name: 'new-data',
-      component: require('@/components/NewData').default
+      name: 'post-new',
+      component: require('@/components/PostNew').default
+    },
+    {
+      path: '/post/:id/edit',
+      name: 'post-edit',
+      component: require('@/components/PostEdit').default
+    },
+    {
+      path: '/post/:id',
+      name: 'post',
+      props: true,
+      component: require('@/components/Post').default
     },
     {
       path: '*',

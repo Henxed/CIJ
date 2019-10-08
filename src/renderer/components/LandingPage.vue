@@ -4,16 +4,14 @@
     <main class="content">
         <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
       <div class="doc">
-        <div class="search"><input type="search" name="search" v-model="filter" placeholder="Что вы хотите найти?" id="JSsearch"></div>
-        <router-link to="/new">
-          новый
-        </router-link>
-<div class="grid">
+        <div class="search"><input type="search" name="search" v-model="filter" placeholder="Что вы хотите найти?" v-touppercase></div>
+        <router-link to="/new"> Новый </router-link>
+        <div class="grid">
   				<router-link :to="{ name: 'post', params: { id: post.id } }" class="card" v-for="post in filterdPosts" >
   					<h3>{{post.title}}</h3>
   					<div class="contacts">{{post.contacts}}</div><div class="boss">{{post.boss}}</div>
   				</router-link>
-</div>
+        </div>
 
       </div>
 
@@ -22,6 +20,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 const low = require('lowdb')
 const _ = require('lodash')
 const FileSync = require('lowdb/adapters/FileSync')
@@ -29,15 +28,12 @@ const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const store = low(adapter)
 
-  store._.mixin({
-  	// insert with inrementing id
-  	insert: function(col, doc) {
-  		let id = col.length > 0 ? _.maxBy(col, 'id')['id'] : 0
-  		doc.id = ++id
-  		col.push(doc)
-  		return col
-  	}
-  })
+Vue.directive( 'touppercase', {
+    update (el) {
+        el.value = el.value.toLowerCase()
+    },
+})
+
   store.posts = store.get('posts')
 
   export default {
@@ -45,7 +41,6 @@ const store = low(adapter)
          return  {
             filter: '',
          		posts: store.get('posts').value(),
-            post: {}
          }
     },
   	computed: {
@@ -62,7 +57,7 @@ const store = low(adapter)
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
 
   * {
     box-sizing: border-box;
@@ -70,9 +65,16 @@ const store = low(adapter)
     padding: 0;
   }
 
-  body { font-family: 'Source Sans Pro', sans-serif; }
+  body { font-family: 'Segoe UI', 'Arial', sans-serif; }
 
   #wrapper {
+    position: relative;
+
+    padding: 60px 80px;
+  }
+
+  #wrapper::after{
+    content: '';
     background:
       radial-gradient(
         ellipse at top left,
@@ -80,8 +82,11 @@ const store = low(adapter)
         rgba(229, 229, 229, .9) 100%
       );
     height: 100vh;
-    padding: 60px 80px;
     width: 100vw;
+    margin: 0 -80px;
+    position: fixed;
+    top: 0;
+    z-index: -1;
   }
 
   #logo {

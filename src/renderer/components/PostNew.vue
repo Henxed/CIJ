@@ -5,6 +5,12 @@
       <a href="#/">На главную</a>
       <div class="doc">
           <form class="" action="index.html" method="post">
+            <p v-if="errors.length">
+              <b>Пожалуйста исправьте указанные ошибки:</b>
+              <ul>
+                <li v-for="error in errors">{{ error }}</li>
+              </ul>
+            </p>
             <div class="input">
               <label for="title">Название учреждения</label>
               <input type="text" name="title" id="title" v-model="post.title" >
@@ -30,6 +36,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueSnackbar from 'vue-snack'
+import 'vue-snack/dist/vue-snack.min.css'
+Vue.use(VueSnackbar)
+
+
 const low = require('lowdb')
 const _ = require('lodash')
 const FileSync = require('lowdb/adapters/FileSync')
@@ -52,14 +64,44 @@ store.posts = store.get('posts') //вытаскиваем данные, чтоб
 export default {
   data: function() {
        return  {
-         posts: store.get('posts').value(),
-         post: {}
+         post: {},
+         errors: [],
+         title: null,
+         contacts: null,
+         boss: null
        }
   },
   methods: {
-    addPost: function () {
-      store.posts.insert(this.post).write() //@TODO понять почему не работает сохранение в создание нового поста.
-      this.post = {}
+    ok () {
+      this.$snack.success({
+        text: 'Запись была добавлена',
+        button: 'закрыть',
+        action: this.clickAction
+      })
+    },
+    addPost: function (e) {
+      if (this.post.title && this.post.contacts && this.post.boss) {
+        store.posts.insert(this.post).write()
+        this.post = {}
+        this.ok()
+        this.errors = []
+        return true;
+      }
+
+      this.errors = [];
+
+      if (!this.post.title) {
+        this.errors.push('Требуется указать название.');
+      }
+      if (!this.post.contacts) {
+        this.errors.push('Требуется указать контакты.');
+      }
+      if (!this.post.boss) {
+        this.errors.push('Требуется указать руководителя.');
+      }
+
+      e.preventDefault();
+
     }
   }
 }
