@@ -28,19 +28,27 @@ const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('db.json')
 const store = low(adapter)
 
+Vue.use(require('vue-shortkey'))
+
+Vue.component('modal', {
+  template: '#modal-template'
+})
+
 Vue.directive( 'touppercase', {
     update (el) {
         el.value = el.value.toLowerCase()
     },
 })
 
-  store.posts = store.get('posts')
 
-  export default {
+store.posts = store.get('posts')
+
+export default {
     data: function() {
          return  {
             filter: '',
          		posts: store.get('posts').value(),
+            showModal: false
          }
     },
   	computed: {

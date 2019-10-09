@@ -4,7 +4,7 @@
     <main class="content">
       <a href="#/">На главную</a>
       <div class="doc">
-
+        <router-link :to="{ name: 'post-edit', params: { id: post.id } }"> изменить </router-link>
         <div class="card">
           <h3>{{post.title}}</h3>
           <div class="contacts">{{post.contacts}}</div><div class="boss">{{post.boss}}</div>
