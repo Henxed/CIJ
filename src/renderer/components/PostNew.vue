@@ -25,7 +25,7 @@
             </div>
             <div class="input">
               <label for="special">Специальности</label>
-              <textarea name="name" id="special" rows="8" cols="80" v-model="post.special"></textarea>
+              <ckeditor :editor="editor" v-model="post.special" :config="editorConfig"></ckeditor>
             </div>
             <button type="button" v-on:click="addPost">Добавить</button>
           </form>
@@ -40,6 +40,8 @@
 import Vue from 'vue'
 import VueSnackbar from 'vue-snack'
 import 'vue-snack/dist/vue-snack.min.css'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import '@ckeditor/ckeditor5-build-classic/build/translations/ru';
 
 Vue.use(VueSnackbar)
 
@@ -69,7 +71,21 @@ export default {
          errors: [],
          title: null,
          contacts: null,
-         boss: null
+         boss: null,
+         editor: ClassicEditor,
+                editorData: '',
+                editorConfig: {
+                  language: 'ru',
+                  toolbar: {
+                      items: [
+                          'bold',
+                          'italic',
+                          'insertTable',
+                          'undo',
+                          'redo'
+                      ]
+                  }
+                }
        }
   },
   methods: {

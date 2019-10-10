@@ -3,6 +3,9 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
+Vue.use( CKEditor );
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
