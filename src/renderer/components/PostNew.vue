@@ -2,7 +2,7 @@
   <div id="wrapper">
 
     <main class="content">
-      <a href="#/">На главную</a>
+      <a href="/">На главную</a>
       <div class="doc">
           <form class="" action="index.html" method="post">
             <p v-if="errors.length">
@@ -27,7 +27,7 @@
               <label for="special">Специальности</label>
               <ckeditor :editor="editor" v-model="post.special" :config="editorConfig"></ckeditor>
             </div>
-            <button type="button" v-on:click="addPost">Добавить</button>
+            <button type="button" class="btn" v-on:click="addPost">Добавить</button>
           </form>
       </div>
 

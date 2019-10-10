@@ -19,12 +19,15 @@ export default new Router({
     {
       path: '/',
       name: 'landing-page',
-      component: require('@/components/LandingPage').default
+      component: require('@/components/LandingPage').default,
+
+      
     },
     {
       path: '/new',
       name: 'post-new',
-      component: require('@/components/PostNew').default
+      component: require('@/components/PostNew').default,
+      meta: { reuse: false }
     },
     {
       path: '/post/:id/edit',
@@ -39,7 +42,8 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/',
+      meta: { reuse: false }
     }
   ]
 })

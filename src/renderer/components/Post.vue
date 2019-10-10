@@ -2,9 +2,16 @@
   <div id="wrapper">
 
     <main class="content">
-      <a href="#/">На главную</a>
+      <div>
+        <a href="#/" class="btn">На главную</a>
+        <button type="button" class="btn" v-show='admin' v-on:click="delPost">Удалить</button>
+        <router-link :to="{ name: 'post-edit', params: { id: post.id } }" class="btn" v-show='admin'> изменить </router-link>
+        <input type="hidden" v-shortkey="['ctrl', 'alt', 'insert']" @shortkey="isAdmin()">
+      </div>
+
+
       <div class="doc">
-        <router-link :to="{ name: 'post-edit', params: { id: post.id } }"> изменить </router-link>
+
 
         <h2>{{post.title}}</h2>
         <div class="card">
@@ -23,20 +30,48 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueSnackbar from 'vue-snack'
+import 'vue-snack/dist/vue-snack.min.css'
+const ipcRenderer = require("electron").ipcRenderer;
+
+Vue.use(VueSnackbar)
+
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 
 const adapter = new FileSync('db.json')
 const store = low(adapter)
 
-
-
   export default {
     props: ['id'],
     data: function() {
          return  {
-         	 post: store.get('posts').find({ id: parseInt(this.$route.params.id) }).value()
+         	 post: store.get('posts').find({ id: parseInt(this.$route.params.id) }).value(),
+           admin: false
          }
+    },
+    methods: {
+      del () {
+        this.$snack.success({
+          text: 'Запись была удалена',
+          button: 'закрыть',
+          action: this.clickAction
+        })
+      },
+      delPost() {
+        store.get('posts').remove({ id: parseInt(this.$route.params.id) }).write()
+        document.location.href = '/';
+      },
+      isAdmin() {
+        this.admin = !this.admin
+      },
+      print(){
+        ipcRenderer.send("getPrinterList");
+        ipcRenderer.once("getPrinterList", (event, data) => {
+        console.log(data);
+        });
+      }
     }
   }
 </script>

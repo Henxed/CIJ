@@ -2,10 +2,16 @@
   <div id="wrapper">
 
     <main class="content">
-        <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
+      <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
+
       <div class="doc">
         <div class="search"><input type="search" name="search" v-model="filter" placeholder="Что вы хотите найти?" v-touppercase></div>
-        <router-link to="/new"> Новый </router-link>
+
+        <router-link to="/new" class="btn" v-show='admin'> Новый </router-link>
+
+        <input type="hidden" v-shortkey="['ctrl', 'alt', 'insert']" @shortkey="isAdmin()">
+        <input type="hidden" v-shortkey="['ctrl', 'alt', 'del']" @shortkey="block()">
+
         <div class="grid">
   				<router-link :to="{ name: 'post', params: { id: post.id } }" class="card" v-for="post in filterdPosts" >
   					<h3>{{post.title}}</h3>
@@ -30,10 +36,6 @@ const store = low(adapter)
 
 Vue.use(require('vue-shortkey'))
 
-Vue.component('modal', {
-  template: '#modal-template'
-})
-
 Vue.directive( 'touppercase', {
     update (el) {
         el.value = el.value.toLowerCase()
@@ -43,16 +45,17 @@ Vue.directive( 'touppercase', {
 
 store.posts = store.get('posts')
 
+
 export default {
     data: function() {
          return  {
             filter: '',
          		posts: store.get('posts').value(),
-            showModal: false
+            admin: false
          }
     },
   	computed: {
-  		filterdPosts () {
+  		filterdPosts() {
   			if (!this.filter) return this.posts
 
   			return _.filter(this.posts, post => {
@@ -60,13 +63,19 @@ export default {
   				return haystack.toLowerCase().indexOf(this.filter) != -1
   			})
   		}
-  	}
+  	},
+    methods: {
+      isAdmin() {
+        this.admin = !this.admin
+      },
+      block() {
+        return false;
+      }
+    }
   }
 </script>
 
 <style>
-
-
   * {
     box-sizing: border-box;
     margin: 0;
@@ -144,21 +153,29 @@ export default {
     margin-bottom: 10px;
   }
 
-  .doc button {
-    font-size: .8em;
+  .btn {
     cursor: pointer;
     outline: none;
-    padding: 0.75em 2em;
     border-radius: 2em;
-    display: inline-block;
     color: #fff;
     background-color: #4fc08d;
     transition: all 0.15s ease;
     box-sizing: border-box;
-    border: 1px solid #4fc08d;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 14px;
+    line-height: 1.6;
+    text-transform: uppercase;
   }
 
-  .doc button.alt {
+  .btn.alt {
     color: #42b983;
     background-color: transparent;
   }

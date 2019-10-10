@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -18,13 +18,21 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 700,
     useContentSize: true,
-    width: 1000,
+    width: 1200,
+    frame: true,
     webPreferences : {
       nodeIntegration :  true  // решание проблемы с node.js 12.x.x
     }
   })
+
+  mainWindow.setMenuBarVisibility(false)
+
+  ipcMain.on('getPrinterList', (event) => {
+    const list = mainWindow.webContents.getPrinters();
+    mainWindow.webContents.send('getPrinterList', list);
+  });
 
   mainWindow.loadURL(winURL)
 
@@ -32,7 +40,15 @@ function createWindow () {
     mainWindow = null
   })
 }
+function minimize(){
+   var window = remote.getCurrentWindow();
+   window.minimize();
+ }
 
+ function isclose(){
+   var window = remote.getCurrentWindow();
+   window.close();
+ }
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
