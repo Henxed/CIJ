@@ -2,10 +2,14 @@
   <div id="wrapper">
 
     <main class="content">
-      <div>
-        <a href="#/" class="btn">На главную</a>
+      <div class="btns">
+        <div class="left-side"><a href="#/" class="btn alt">На главную</a></div>
+        <div class="flex"></div>
+        <div class="right-side">
+        <button type="button" class="btn" v-on:click="print">Печатать</button>
         <button type="button" class="btn" v-show='admin' v-on:click="delPost">Удалить</button>
         <router-link :to="{ name: 'post-edit', params: { id: post.id } }" class="btn" v-show='admin'> изменить </router-link>
+        </div>
         <input type="hidden" v-shortkey="['ctrl', 'alt', 'insert']" @shortkey="isAdmin()">
       </div>
 
@@ -16,7 +20,8 @@
         <h2>{{post.title}}</h2>
         <div class="card">
 
-          <div class="contacts">{{post.contacts}}</div><div class="boss">{{post.boss}}</div>
+          <div class="contacts">{{post.contacts}}</div>
+          <div class="boss"><strong>Руководитель: </strong>{{post.boss}}</div>
 
         </div>
 
@@ -33,6 +38,8 @@
 import Vue from 'vue'
 import VueSnackbar from 'vue-snack'
 import 'vue-snack/dist/vue-snack.min.css'
+import printer from "pdf-to-printer";
+
 const ipcRenderer = require("electron").ipcRenderer;
 
 Vue.use(VueSnackbar)
@@ -67,10 +74,7 @@ const store = low(adapter)
         this.admin = !this.admin
       },
       print(){
-        ipcRenderer.send("getPrinterList");
-        ipcRenderer.once("getPrinterList", (event, data) => {
-        console.log(data);
-        });
+        window.print()
       }
     }
   }
@@ -105,5 +109,29 @@ table {
 table pre {
     font-size: 16px;
     font-family: 'Segoe UI', sans-serif;
+}
+.btns {
+    margin-bottom: 1rem;
+    display: flex;
+}
+@media print {
+  #wrapper::after {
+    background: #fff;
+  }
+  .btns {
+    margin-bottom: 0;
+  }
+  .btn {
+    display:none;
+  }
+  .doc {
+      text-align: center;
+  }
+  .card {
+      box-shadow: none;
+      width: 100%;
+      background: none;
+  }
+
 }
 </style>

@@ -6881,6 +6881,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pdf-to-printer@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/pdf-to-printer/-/pdf-to-printer-1.0.5.tgz#0953f048c409e95279ff9576125d7407743798b3"
+  integrity sha512-6afnc/vzRmbjIkexhrVM9pfpok2JtCn/kKxJF0IXkEMy9PrrW0r6cHjb2ccYGUT8PvXOllODOtOXydxPP2MC+A==
+
 pend@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"

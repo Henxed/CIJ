@@ -124,6 +124,12 @@ export default {
     display: flex;
     flex-direction: column;
   }
+  .right-side{
+    display: flex;
+  }
+  .flex{
+    flex: 1 auto
+  }
   .center {
     display: flex;
     flex-direction: column;
