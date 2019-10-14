@@ -2,7 +2,10 @@
   <div id="wrapper">
 
     <main class="content">
-      <a href="/">На главную</a>
+      <div class="m-1">
+        <a href="../" class="btn alt">На главную</a>
+      </div>
+
       <div class="doc">
           <form class="" action="index.html" method="post">
             <p v-if="errors.length">

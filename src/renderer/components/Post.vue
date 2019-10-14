@@ -3,11 +3,11 @@
 
     <main class="content">
       <div class="btns">
-        <div class="left-side"><a href="#/" class="btn alt">На главную</a></div>
+        <div class="left-side"><a href="../" class="btn alt">На главную</a></div>
         <div class="flex"></div>
         <div class="right-side">
-        <button type="button" class="btn" v-on:click="print">Печатать</button>
-        <button type="button" class="btn" v-show='admin' v-on:click="delPost">Удалить</button>
+        <button type="button" class="btn" v-show='!admin' v-on:click="print">Распечатать</button>
+        <button type="button" class="btn del" v-show='admin' v-on:click="delPost">Удалить</button>
         <router-link :to="{ name: 'post-edit', params: { id: post.id } }" class="btn" v-show='admin'> изменить </router-link>
         </div>
         <input type="hidden" v-shortkey="['ctrl', 'alt', 'insert']" @shortkey="isAdmin()">
@@ -97,14 +97,14 @@ td {
     vertical-align: middle;
     padding: 10px;
     border: 1px solid #d4d4d4;
-    border-left: 0;
-    border-bottom: 0;
 }
 
 table {
     border: 1px solid #d4d4d4;
-    border-top: 0;
-    border-right: 0;
+    border-collapse: collapse;
+}
+thead th {
+    border: 1px solid #d4d4d4;
 }
 table pre {
     font-size: 16px;
@@ -114,6 +114,10 @@ table pre {
     margin-bottom: 1rem;
     display: flex;
 }
+.del {
+  background-color: #f44336;
+}
+
 @media print {
   #wrapper::after {
     background: #fff;

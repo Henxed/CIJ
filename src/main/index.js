@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, globalShortcut, BrowserWindow } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -26,13 +26,11 @@ function createWindow () {
       nodeIntegration :  true  // решание проблемы с node.js 12.x.x
     }
   })
+  mainWindow.setFullScreen(true)
 
   mainWindow.setMenuBarVisibility(false)
 
-  ipcMain.on('getPrinterList', (event) => {
-    const list = mainWindow.webContents.getPrinters();
-    mainWindow.webContents.send('getPrinterList', list);
-  });
+  mainWindow.webContents.print ({silent: true, printBackground: true});
 
   mainWindow.loadURL(winURL)
 
@@ -62,6 +60,15 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+app.on('ready', () => {
+  globalShortcut.register('alt+tab', () => {
+    console.log('jopa');
+     return false
+  })
+})
+
+
 
 /**
  * Auto Updater
