@@ -43,6 +43,27 @@
         }
       ]
     },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
     "mac": {
       "icon": "build/icons/icon.icns"
     },
@@ -58,7 +79,6 @@
     "@ckeditor/ckeditor5-vue": "^1.0.0",
     "axios": "^0.18.0",
     "browser-window": "^0.4.0",
-    "electron-packager": "^14.0.6",
     "eslint-cli": "^1.1.1",
     "lodash": "^4.17.15",
     "lowdb": "^1.0.0",

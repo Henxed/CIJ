@@ -3,7 +3,7 @@
 
     <main class="content">
       <div class="btns">
-        <div class="left-side"><a href="../" class="btn alt">На главную</a></div>
+        <div class="left-side"><router-link :to="{ name: 'main'}" class="btn alt">На главную</router-link></div>
         <div class="flex"></div>
         <div class="right-side">
         <button type="button" class="btn" v-show='!admin' v-on:click="print">Распечатать</button>
@@ -38,9 +38,6 @@
 import Vue from 'vue'
 import VueSnackbar from 'vue-snack'
 import 'vue-snack/dist/vue-snack.min.css'
-import printer from "pdf-to-printer";
-
-const ipcRenderer = require("electron").ipcRenderer;
 
 Vue.use(VueSnackbar)
 
@@ -68,7 +65,7 @@ const store = low(adapter)
       },
       delPost() {
         store.get('posts').remove({ id: parseInt(this.$route.params.id) }).write()
-        document.location.href = '/';
+        document.location.href = '#/';
       },
       isAdmin() {
         this.admin = !this.admin

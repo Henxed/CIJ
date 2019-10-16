@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div id="wrapper" :key="$route.fullPath">
 
     <main class="content">
       <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
@@ -8,7 +8,7 @@
         <div class="search"><input type="search" name="search" v-model="filter" placeholder="Что вы хотите найти?" v-touppercase></div>
 
         <router-link to="/new" class="btn" v-show='admin'> Добавить </router-link>
-
+        <button type="button" class="btn" v-show='admin' v-on:click="fetchData">Обновить данные</button>
         <input type="hidden" v-shortkey="['ctrl', 'alt', 'insert']" @shortkey="isAdmin()">
 
         <div class="grid">
@@ -42,7 +42,6 @@ Vue.directive( 'touppercase', {
     },
 })
 
-
 store.posts = store.get('posts')
 
 
@@ -54,6 +53,10 @@ export default {
             admin: false
          }
     },
+    beforeRouteUpdate (to, from, next) {
+      this.fetchData()
+      next()
+    },
   	computed: {
   		filterdPosts() {
   			if (!this.filter) return this.posts
@@ -64,12 +67,19 @@ export default {
   			})
   		}
   	},
+    watch: {
+       // при изменениях маршрута запрашиваем данные снова
+       '$route': 'fetchData'
+    },
     methods: {
       isAdmin() {
         this.admin = !this.admin
       },
       block() {
         return false;
+      },
+      fetchData () {
+        window.location.reload()
       }
     }
   }
@@ -229,7 +239,7 @@ main.content {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   grid-gap: 20px;
   align-items: stretch;
 }
@@ -244,7 +254,7 @@ main.content {
   margin: 15px 0;
   overflow: hidden;
   vertical-align: top;
-  width: 400px;
+  width: 380px;
   z-index: 1;
   padding: 16px 20px 12px;
   text-decoration: none;

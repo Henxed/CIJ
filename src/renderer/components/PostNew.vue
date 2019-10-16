@@ -3,7 +3,8 @@
 
     <main class="content">
       <div class="m-1">
-        <a href="../" class="btn alt">На главную</a>
+        <router-link :to="{ name: 'main'}" class="btn alt">На главную</router-link>
+
       </div>
 
       <div class="doc">
