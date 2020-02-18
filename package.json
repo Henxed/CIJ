@@ -44,34 +44,13 @@
       ]
     },
     "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "mac": {
-      "icon": "build/icons/icon.icns"
-    },
-    "win": {
       "icon": "build/icons/icon.ico"
     },
     "linux": {
       "icon": "build/icons"
+    },
+    "mac": {
+      "icon": "build/icons/icon.icns"
     }
   },
   "dependencies": {

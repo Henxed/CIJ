@@ -21,10 +21,7 @@ function createWindow () {
     height: 700,
     useContentSize: true,
     width: 1200,
-    frame: true,
-    webPreferences : {
-      nodeIntegration :  true  // решание проблемы с node.js 12.x.x
-    }
+    frame: true
   })
   mainWindow.setFullScreen(true)
 
